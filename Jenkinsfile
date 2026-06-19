@@ -6,7 +6,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                echo 'Checkout du projet'
+                checkout scm
             }
         }
 
@@ -36,7 +36,13 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo 'Déploiement sur Alwaysdata'
+                sshagent(credentials: ['alwaysdata-ssh']) {
+                    sh '''
+                        scp -o StrictHostKeyChecking=no index.html \
+                        projetcicd@ssh-projetcicd.alwaysdata.net:~/www/
+                    '''
+                }
+                echo 'Déploiement terminé'
             }
         }
     }
