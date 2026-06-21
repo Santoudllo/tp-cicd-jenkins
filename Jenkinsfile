@@ -30,19 +30,13 @@ pipeline {
 
         stage('Promotion') {
             steps {
-                input 'Déployer sur Alwaysdata ?'
+                input 'Déployer ?'
             }
         }
 
         stage('Deploy') {
             steps {
-                sshagent(credentials: ['alwaysdata-ssh']) {
-                    sh '''
-                        scp -o StrictHostKeyChecking=no index.html \
-                        projetcicd@ssh-projetcicd.alwaysdata.net:~/www/
-                    '''
-                }
-                echo 'Déploiement terminé'
+                echo 'Déploiement effectué'
             }
         }
     }
